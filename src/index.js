@@ -5,17 +5,17 @@ const list = document.getElementById('items-list');
 // task array of objects
 const toDoList = [
   {
-    description: 'Binge Netflix',
+    description: 'Wake up',
     completed: false,
     index: 0,
   },
   {
-    description: 'Ride a bike',
+    description: 'Take a shower',
     completed: false,
     index: 1,
   },
   {
-    description: 'Start to-do list project',
+    description: 'Go for work',
     completed: true,
     index: 2,
   },
