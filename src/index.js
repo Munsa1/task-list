@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import './style.css';
+
 const list = document.getElementById('items-list');
 
 // task array of objects
