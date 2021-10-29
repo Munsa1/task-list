@@ -1,4 +1,6 @@
 import './style.css';
+import { checkEvent, checkboxState } from './state';
+import { setToLocalStorage, getFromLocalStorage } from './store';
 
 const list = document.getElementById('items-list');
 
