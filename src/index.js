@@ -1,47 +1,58 @@
-import './style.css';
+import './styles.css';
+import { dragHover } from './dragdrop';
+import { toStorage, fromStorage, reloadStore } from './store';
+import { sortIndex } from './status';
+import { addHandlers, editHandlers } from './add_remove';
 
-const list = document.getElementById('items-list');
+const todoItems = [];
 
-// task array of objects
-const toDoList = [
-  {
-    description: 'Wake up',
-    completed: false,
-    index: 0,
-  },
-  {
-    description: 'Take a shower',
-    completed: false,
-    index: 1,
-  },
-  {
-    description: 'Go for work',
-    completed: true,
-    index: 2,
-  },
-];
+const populateItems = (todoItems, sort) => {
+  let sortedTodo = [];
+  if (sort) {
+    sortedTodo = todoItems.sort((a, b) => a.index - b.index);
+  } else {
+    sortedTodo = todoItems;
+  }
 
-// populate list
-const populate = () => {
-  // sort the array
-  const sortedList = toDoList.sort((x, y) => x.index - y.index);
+  for (let i = 0; i < sortedTodo.length; i += 1) {
+    let style = '';
+    let checkbox = '';
+    if (sortedTodo[i].completed) {
+      style = 'text-decoration: line-through;';
+      checkbox = 'checked';
+    } else {
+      style = 'text-decoration: none;';
+      checkbox = '';
+    }
 
-  // iterate
-  for (let i = 0; i < sortedList.length; i += 1) {
-    list.insertAdjacentHTML('beforeend', `
-      <div class="task">
-        <div>
-          <input class="check" type="checkbox" name="item-${sortedList[i].index}">
-          <label for="item-${sortedList[i].index}">${sortedList[i].description}</label>
-        </div>
-        <div class="material-icons-outlined">
-          more_vert
-        </div>
+    document.getElementById('list-items').insertAdjacentHTML('beforeend', `
+    <div class="todo-item" draggable="true">
+      <div>
+        <input type="checkbox" name="item-${sortedTodo[i].index}" ${checkbox}>
+        <label for="item-${sortedTodo[i].index}" style="${style}" contenteditable=true> 
+          ${sortedTodo[i].description}
+        </label>
       </div>
-
-      <hr>
+      <div>
+        <span class="material-icons-outlined remove-btn buttons" id="item-${sortedTodo[i].index}">delete_outline</span>
+        <span class="material-icons-outlined buttons move-button">more_vert</span>
+      </div>
+  </div>
     `);
   }
 };
 
-window.onload = populate();
+window.addEventListener('load', () => {
+  const localStore = fromStorage();
+  if (localStore == null) {
+    toStorage(todoItems, true);
+    populateItems(todoItems);
+  } else {
+    const sortedItems = sortIndex(localStore);
+    populateItems(sortedItems, false);
+  }
+  dragHover();
+  reloadStore();
+  addHandlers();
+  editHandlers();
+});
