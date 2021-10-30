@@ -8,11 +8,11 @@ const editHandlers = () => {
   for (let i = 0; i < todoList.length; i += 1) {
     const labelElem = todoList[i].children[0].children[1];
 
-    labelElem.addEventListener('keypress', (e)=>{
+    labelElem.addEventListener('keypress', (e) => {
       if (e.keyCode === 13) {
-        e.preventDefault()
+        e.preventDefault();
       }
-    })
+    });
 
     labelElem.addEventListener('input', () => {
       refreshStore();
