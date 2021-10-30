@@ -7,6 +7,13 @@ const editHandlers = () => {
   const todoList = document.getElementsByClassName('todo-item');
   for (let i = 0; i < todoList.length; i += 1) {
     const labelElem = todoList[i].children[0].children[1];
+
+    labelElem.addEventListener('keypress', (e) => {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+      }
+    });
+
     labelElem.addEventListener('input', () => {
       refreshStore();
     });
@@ -30,9 +37,7 @@ const appendToDOM = (todo) => {
     <div class="todo-item" draggable="true">
       <div>
         <input type="checkbox" name="item-${todo.index}" readonly="true">
-        <label for="item-${todo.index}" style="text-decoration: none;" contenteditable=true>
-          ${todo.description}
-        </label>
+        <span contenteditable=true>${todo.description}</span>
       </div>
       <div class="dots-button">
         <span class="material-icons-outlined buttons remove-btn" id="item-${todo.index}">delete_outline</span>
