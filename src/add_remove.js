@@ -31,7 +31,7 @@ const addHandlers = () => {
     });
   }
 };
-
+module.exports = addHandlers;
 const appendToDOM = (todo) => {
   document.getElementById('list-items').insertAdjacentHTML('beforeend', `
     <div class="todo-item" draggable="true">
